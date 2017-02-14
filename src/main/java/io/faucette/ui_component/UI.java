@@ -1,11 +1,13 @@
 package io.faucette.ui_component;
 
 
+import io.faucette.math.AABB2;
 import io.faucette.math.Vec2;
 import io.faucette.math.Mat32;
 import io.faucette.scene_graph.Entity;
 import io.faucette.scene_graph.Component;
 import io.faucette.scene_graph.ComponentManager;
+import io.faucette.transform_components.Transform2D;
 
 
 public class UI extends Component {
@@ -17,6 +19,9 @@ public class UI extends Component {
     private float alpha;
 
     private Integer image;
+
+    private AABB2 aabb;
+    private Vec2 size;
 
     private float width;
     private float height;
@@ -38,6 +43,9 @@ public class UI extends Component {
         alpha = 1f;
 
         image = new Integer(-1);
+
+        aabb = new AABB2();
+        size = new Vec2(1f, 1f);
 
         width = 1f;
         height = 1f;
@@ -68,6 +76,7 @@ public class UI extends Component {
         alpha = 1f;
 
         image = new Integer(-1);
+        size.set(1f, 1f);
 
         width = 1f;
         height = 1f;
@@ -103,6 +112,19 @@ public class UI extends Component {
         return this;
     }
 
+    public AABB2 getAABB2() {
+        Vec2 position = entity.getComponent(Transform2D.class).getPosition();
+        aabb.fromCenterSize(position, size);
+        return aabb;
+    }
+
+    public boolean contains(Vec2 point) {
+        return getAABB2().contains(point);
+    }
+    public boolean intersects(AABB2 other) {
+        return getAABB2().intersects(other);
+    }
+
     public int getZ() { return z; }
     public UI setZ(int z) { this.z = z; return this; }
 
@@ -113,10 +135,18 @@ public class UI extends Component {
     public UI setImage(Integer image) { this.image = image; return this; }
 
     public float getWidth() { return width; }
-    public UI setWidth(float width) { this.width = width; return this; }
+    public UI setWidth(float width) {
+        this.width = width;
+        size.x = width * 0.5f;
+        return this;
+    }
 
     public float getHeight() { return height; }
-    public UI setHeight(float height) { this.height = height; return this; }
+    public UI setHeight(float height) {
+        this.height = height;
+        size.y = height * 0.5f;
+        return this;
+    }
 
     public float getX() { return x; }
     public UI setX(float x) { this.x = x; return this; }

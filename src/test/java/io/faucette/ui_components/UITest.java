@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import io.faucette.math.Vec2;
 import io.faucette.scene_graph.Scene;
 import io.faucette.scene_graph.Entity;
+import io.faucette.transform_components.Transform2D;
 
 import static org.junit.Assert.*;
 import org.junit.*;
@@ -17,9 +18,18 @@ public class UITest {
     @Test
     public void test() {
         Scene scene = new Scene();
+        UI ui = new UI();
 
-        scene.addEntity(new Entity().addComponent(new UI()));
+        scene.addEntity(new Entity()
+            .addComponent(new Transform2D())
+            .addComponent(ui));
+
         scene.init();
+
+        assertTrue(ui.contains(new Vec2(0f, 0f)));
+        assertTrue(ui.contains(new Vec2(0.5f, 0.5f)));
+        assertFalse(ui.contains(new Vec2(0.51f, 0.51f)));
+        assertFalse(ui.contains(new Vec2(-1f, -1f)));
 
         assertTrue(scene.hasComponentManager(UIManager.class));
     }
