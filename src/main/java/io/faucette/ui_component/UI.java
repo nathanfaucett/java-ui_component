@@ -31,6 +31,11 @@ public class UI extends Component {
     private float w;
     private float h;
 
+    private String text;
+    private int fontSize;
+    private String font;
+    private int fontColor;
+
 
     public UI() {
         super();
@@ -54,6 +59,10 @@ public class UI extends Component {
         y = 0f;
         w = 1f;
         h = 1f;
+
+        text = "";
+        fontSize = 16;
+        font = "Arial";
     }
 
     @Override
@@ -159,4 +168,16 @@ public class UI extends Component {
 
     public float getH() { return h; }
     public UI setH(float h) { this.h = h; return this; }
+
+    public String getText() { return text; }
+    public UI setText(String text) { this.text = text; return this; }
+
+    public int getFontSize() { return fontSize; }
+    public UI setFontSize(int fontSize) { this.fontSize = fontSize; return this; }
+
+    public String getFont() { return font; }
+    public UI setFont(String font) { this.font = font; return this; }
+
+    public int getFontColor() { return fontColor; }
+    public UI setFontColor(int fontColor) { this.fontColor = fontColor; return this; }
 }
